@@ -22,3 +22,11 @@ Warning: the input csv files are not included here. They are stored in our curre
 9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py
 
 Additional notes: test_run_opt.ipynb is the draft Julia optmization script
+
+# data
+
+Emission factors are from: egrid 2016 (https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)
+Price Data is from: EIA-923 with EIA-906/920 previous data (https://www.eia.gov/electricity/data/eia923/)
+Transmission Data and hourly wind and solar profiles are from: NEEDS v5.16/IPM v5.16 
+(https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515)
+Load Data is from: EIA-930 (https://www.eia.gov/realtime_grid/#/data/table?end=20160528T00&start=20160521T00 selecting download data, balance data for 2016)
