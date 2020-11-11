@@ -19,6 +19,14 @@ Warning: the input csv files are not included here. They are stored in our curre
 
 8. If you want to compare your data to NEI 2016 data, use NEI_validation.ipynb for a monthly validation (data from ftp://newftp.epa.gov/DMDnLoad/emissions/daily/quarterly/2016/)
 
-9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py
+9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py. You can then run remove_nans.ipynb in order to remove any nans that appear in the .nc files to make sure they work with GEOS-Chem.
 
 Additional notes: test_run_opt.ipynb is the draft Julia optmization script
+
+# data
+
+Emission factors are from: egrid 2016 (https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)
+Price Data is from: EIA-923 with EIA-906/920 previous data (https://www.eia.gov/electricity/data/eia923/)
+Transmission Data and hourly wind and solar profiles are from: NEEDS v5.16/IPM v5.16 
+(https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515)
+Load Data is from: EIA-930 (https://www.eia.gov/realtime_grid/#/data/table?end=20160528T00&start=20160521T00 selecting download data, balance data for 2016)

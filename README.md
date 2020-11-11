@@ -19,7 +19,7 @@ Warning: the input csv files are not included here. They are stored in our curre
 
 8. If you want to compare your data to NEI 2016 data, use NEI_validation.ipynb for a monthly validation (data from ftp://newftp.epa.gov/DMDnLoad/emissions/daily/quarterly/2016/)
 
-9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py
+9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py. You can then run remove_nans.ipynb in order to remove any nans that appear in the .nc files to make sure they work with GEOS-Chem.
 
 Additional notes: test_run_opt.ipynb is the draft Julia optmization script
 
