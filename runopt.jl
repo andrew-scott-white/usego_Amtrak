@@ -5,7 +5,7 @@ folder = "./good_model_inputs/";
 using DataFrames, CSV, JuMP, CPLEX, Test
 
 # Load model inputs
-gen = CSV.read(folder * "inputs_gen_no-nuclear_all-generators_20k.csv")
+gen = CSV.read(folder * "inputs_gen_no-nuclear_no_coal.csv")
 load = CSV.read(folder * "inputs_load_no-nuclear.csv")
 renCF = CSV.read(folder * "inputs_renewableCF.csv")
 trans = CSV.read(folder * "inputs_trans_no-nuclear.csv")
@@ -68,8 +68,8 @@ if termination_status(m) == MOI.OPTIMAL
     optimal_objective = objective_value(m)
     println("Optimal")
     println(optimal_objective)
-    CSV.write("./outputs/gen_no-nuclear_modified-all-generators_$(ARGS[1])_$(ARGS[2]).csv", genOut)
-    CSV.write("./outputs/trans_50-nuclear_modified-all-generators_$(ARGS[1])_$(ARGS[2]).csv", transOut)
+    CSV.write("./outputs/gen_no-nuclear_no-coal_$(ARGS[1])_$(ARGS[2]).csv", genOut)
+    CSV.write("./outputs/trans_no-nuclear_no-coal_$(ARGS[1])_$(ARGS[2]).csv", transOut)
 elseif termination_status(m) == MOI.TIME_LIMIT && has_values(m)
     suboptimal_gen = value.(xgen)
     genOut = convert(DataFrame, suboptimal_gen)
@@ -78,8 +78,8 @@ elseif termination_status(m) == MOI.TIME_LIMIT && has_values(m)
     suboptimal_objective = objective_value(m)
     println("Suboptimal")
     println(suboptimal_objective)
-    CSV.write("./outputs/subopt_gen_no-nuclear_modified-all-generators_$(ARGS[1])_$(ARGS[2]).csv", suboptimal_genOut)
-    CSV.write("./outputs/subopt_trans_no-nuclear_modified-all-generators_$(ARGS[1])_$(ARGS[2]).csv", suboptimal_transOut)
+    CSV.write("./outputs/subopt_gen_no-nuclear_no-coal_$(ARGS[1])_$(ARGS[2]).csv", suboptimal_genOut)
+    CSV.write("./outputs/subopt_trans_no-nuclear_no-coal_$(ARGS[1])_$(ARGS[2]).csv", suboptimal_transOut)
 else
     error("The model was not solved correctly.")
 end

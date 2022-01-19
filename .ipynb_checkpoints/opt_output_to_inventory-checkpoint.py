@@ -1,5 +1,4 @@
-#!/home/gchossie/anaconda3/envs/evchina/bin/python
-
+#!/home/emfreese/anaconda3/envs/grid_mod/bin/python
 #SBATCH --time=12:00:00
 #SBATCH --mem=100G
 #SBATCH --cpus-per-task=1
@@ -15,9 +14,9 @@ import pytz, os, datetime, netCDF4
 
 
 # Get power model output and merge with power plant characteristics
-gen = feather.read_dataframe(f'./outputs/gen_no-nuclear_modified-all-generators.feather')
-carac = pd.read_csv(f'./good_model_inputs/inputs_gen_no-nuclear_all-generators_20k-new_name.csv')
-
+gen = feather.read_dataframe(f'./outputs/gen_no-nuclear_no-coal.feather')
+carac = pd.read_csv(f'./good_model_inputs/inputs_gen_no-nuclear_no_coal.csv')
+print('data loaded')
 # To match region totals with eGRID
 #region_tots = feather.read_dataframe('egrid_corr_fac.feather').set_index('index')
 #carac['NOX corr'] = carac['SUBRGN'].apply(lambda x: region_tots['NOX corr fac'][x])
@@ -30,7 +29,7 @@ carac = carac.drop('Unnamed: 0', axis=1)
 opt_out = pd.concat((carac,gen), axis=1)
 
 # Add the missing final hour
-opt_out['2017_365_23'] = opt_out['2017_365_22'].copy()
+opt_out['2016_365_23'] = opt_out['2016_365_22'].copy()
 
 # Compute grid indices of all generators on NEI grid
 startlat = 20.05
@@ -50,7 +49,7 @@ def process_emissions(species_abbrev, NO = False, NO2 = False):
     Process emissions of NO, NO2, SO2, CH4 and CO2 by multiplying the emissions factor times the generation (output in kg/s)
     initial data in: $MWH/3600sec -> MW/s -> * kg/MW -> kg/s$
     """
-    emis_df = pd.DataFrame(data=opt_out[f'PL{species_abbrev}RTA'].values.reshape(len(opt_out.index),1) * opt_out[[f'2017_{day}_{hour}' for day in range(1,366) for hour in range(24)]] / 3600)
+    emis_df = pd.DataFrame(data=opt_out[f'PL{species_abbrev}RTA'].values.reshape(len(opt_out.index),1) * opt_out[[f'2016_{day}_{hour}' for day in range(1,366) for hour in range(24)]] / 3600)
     emis_df['idxLat'] = opt_out['idxLat'].astype(int)
     emis_df['idxLon'] = opt_out['idxLon'].astype(int)
     emis_df['StateName'] = opt_out['StateName']
@@ -60,14 +59,18 @@ def process_emissions(species_abbrev, NO = False, NO2 = False):
         mult = 1 - 0.8544304 # NO2/NOx as estimated from NEI2011 inventory
     else:
         mult = 1 # multiply by one to keep the same value if not NO or NO2
-    emis_df[[f'2017_{day}_{hour}' for day in range(1,366) for hour in range(24)]] *= mult
+    emis_df[[f'2016_{day}_{hour}' for day in range(1,366) for hour in range(24)]] *= mult
     return(emis_df)
 
 # Process emissions for each species
 no = process_emissions(species_abbrev = 'NOX', NO = True)
-no2 = process_emissions(species_abbrev = 'NOX', NO2 = True)
-so2 = process_emissions(species_abbrev = 'SO2')
+print('no processed')
 
+no2 = process_emissions(species_abbrev = 'NOX', NO2 = True)
+print('no2 processed')
+
+so2 = process_emissions(species_abbrev = 'SO2')
+print('so2 processed')
 
 # Integrate surface processing
 path = '../annual_emissions/na_surfaces_01.mat'
@@ -147,8 +150,8 @@ lat = np.arange(20.05, 60, 0.1)
 lon = np.arange(-139.95, -49.95, 0.1)
 
 # Build new netCDF file
-f_out = f'../annual_emissions/inventory_power_plants_no-nuclear.nc'
-
+f_out = f'../annual_emissions/inventory_power_plants_no-nuclear_no-coal.nc'
+print('nc file made')
 if os.path.isfile(f_out):
 	#print('Clobbering ' + f_out)
 	os.remove(f_out)
@@ -160,7 +163,7 @@ nc_out.Title = 'Hourly CH power plant inventory'
 nc_out.Conventions = 'COARDS'
 nc_out.History = f'Created {tdy}',
 nc_out.Contact = 'emfreese@mit.edu'
-dim_dict = {'time': {'units': 'hours since 2017-01-01 00:00:00',
+dim_dict = {'time': {'units': 'hours since 2016-01-01 00:00:00',
 					 'dtype': 'i4',
 					 'data':  list(range(8760)),
 					 'other': {'calendar': 'gregorian'}},
