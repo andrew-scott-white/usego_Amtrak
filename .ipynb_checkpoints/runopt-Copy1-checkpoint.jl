@@ -30,14 +30,10 @@ end
 
 # Constrain generation
 for idx in 1:nGen
-    if gen[:FuelType][idx] == "Solar"
+    if gen[:FuelType][idx] == "Solar" or "solar_generator"
         @constraint(m, xgen[idx,:] - gen[:Capacity][idx] * renCF[tList, :solarCF] .<= 0)
-    elseif gen[:FuelType][idx] == "solar_generator"
-        @constraint(m, xgen[idx,:] - gen[:Capacity][idx] * renCF[tList, :solarCF] .<= 0)
-    elseif gen[:FuelType][idx] == "Wind"
+    elseif gen[:FuelType][idx] == "Wind" or "wind_generator"
         # Reduce wind by 15% (calibration)
-        @constraint(m, xgen[idx,:] - gen[:Capacity][idx] * renCF[tList, :windCF] * 0.85 .<= 0)
-    elseif gen[:FuelType][idx] == "wind_generator"
         @constraint(m, xgen[idx,:] - gen[:Capacity][idx] * renCF[tList, :windCF] * 0.85 .<= 0)
     elseif gen[:FuelType][idx] == "Nuclear"
         @constraint(m, xgen[idx,:] - gen[:Capacity][idx] * 0.95 .<= 0)
