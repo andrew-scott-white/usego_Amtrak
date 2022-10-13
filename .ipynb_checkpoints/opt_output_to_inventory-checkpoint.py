@@ -14,8 +14,8 @@ import pytz, os, datetime, netCDF4
 
 
 # Get power model output and merge with power plant characteristics
-gen = feather.read_dataframe(f'./outputs/gen_no-nuclear_no-coal_renewables.feather')
-carac = pd.read_csv(f'./good_model_inputs/inputs_gen_no-nuclear_no_coal_renewables.csv')
+gen = feather.read_dataframe(f'./outputs/gen_no-nuclear_EIA_2030_renewables.feather')
+carac = pd.read_csv(f'./good_model_inputs/inputs_gen_no-nuclear_EIA_2030_renewables.csv')
 print('data loaded')
 # To match region totals with eGRID
 #region_tots = feather.read_dataframe('egrid_corr_fac.feather').set_index('index')
@@ -150,7 +150,7 @@ lat = np.arange(20.05, 60, 0.1)
 lon = np.arange(-139.95, -49.95, 0.1)
 
 # Build new netCDF file
-f_out = f'../annual_emissions/inventory_power_plants_no-nuclear_no-coal_renewables.nc'
+f_out = f'../annual_emissions/inventory_power_plants_no-nuclear_EIA_2030_renewables.nc'
 print('nc file made')
 if os.path.isfile(f_out):
 	#print('Clobbering ' + f_out)

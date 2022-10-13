@@ -7,4 +7,3 @@
 . ~/.bash_profile
 
 julia runopt.jl $1 $2
-
