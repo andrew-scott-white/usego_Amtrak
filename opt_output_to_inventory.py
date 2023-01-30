@@ -13,12 +13,14 @@ from timezonefinder import TimezoneFinder
 from pytz import timezone
 import pytz, os, datetime, netCDF4
 
+run_name = 'base' #insert relevant run name (eg: no_nuclear, base, etc..., to name the read in files and the save out files)
 
 # Get power model output and merge with power plant characteristics
-gen = feather.read_dataframe(f'./outputs/gen_LA_no_ONG.feather')
-carac = pd.read_csv(f'./good_model_inputs/inputs_gen_LA_no_ONG.csv')
+gen = feather.read_dataframe(f'./outputs/gen_{run_name}.feather')
+carac = pd.read_csv(f'./good_model_inputs/inputs_gen_{run_name}.csv')
 print('data loaded')
-# To match region totals with eGRID
+
+# To match region totals with eGRID, unhash this
 #region_tots = feather.read_dataframe('egrid_corr_fac.feather').set_index('index')
 #carac['NOX corr'] = carac['SUBRGN'].apply(lambda x: region_tots['NOX corr fac'][x])
 #carac['SO2 corr'] = carac['SUBRGN'].apply(lambda x: region_tots['SO2 corr fac'][x])
@@ -151,7 +153,7 @@ lat = np.arange(20.05, 60, 0.1)
 lon = np.arange(-139.95, -49.95, 0.1)
 
 # Build new netCDF file
-f_out = f'../annual_emissions/inventory_power_plants_LA_no_ONG.nc'
+f_out = f'../annual_emissions/inventory_power_plants_{run_name}.nc'
 print('nc file made')
 if os.path.isfile(f_out):
 	#print('Clobbering ' + f_out)
