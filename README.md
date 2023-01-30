@@ -1,4 +1,8 @@
-# us-ego
+# us-ego optimization model
+
+This is a least cost dispatch model, based on year 2016 data that provides hourly emissions of NOx, SO2, and CO2 from every EGU in the United States. Model output is suitable for use in a chemical transport model.
+
+
 Warning: the input csv files are not included here. They are stored in our current Dropbox folder on Guillaume's server (https://www.dropbox.com/sh/edxgc11umqw4y3b/AABlT1BPtHBfTTVNdsR5dA5da?dl=0)
 
 1. Run modify_inputs, which loads Alan's input data from ./good_model_inputs/ and adjusts the costs and capacities. This gives you a new generation and transmission file.
@@ -24,10 +28,11 @@ Warning: the input csv files are not included here. They are stored in our curre
 Additional notes:
 1. mask_us_neigrid.pkl masks the US grid, and is used in the opt_output_to_inventory
 
-# data
-
-Emission factors are from: egrid 2016 (https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid)
-Price Data is from: EIA-923 with EIA-906/920 previous data (https://www.eia.gov/electricity/data/eia923/)
-Transmission Data and hourly wind and solar profiles are from: NEEDS v5.16/IPM v5.16 
-(https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515)
-Load Data is from: EIA-930 (https://www.eia.gov/realtime_grid/#/data/table?end=20160528T00&start=20160521T00 selecting download data, balance data for 2016)
+# Data Sources
+Sources for all raw data are listed below. The input files are modified, as many have taken tables and turned them into CSV files. 
+1. Cost data: https://www.eia.gov/electricity/data/eia923/ EIA-923 with EIA-906/920 previous data 
+2. Solar Renewable CF: https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515 Table 4-28 
+3. Wind Renewable CF: https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515 Table 4-20
+4. Load/Demand data: https://www.eia.gov/todayinenergy/detail.php?id=27212 EIA930_BALANCE_2016 form for both Jan-Jun and Jul-Dec, selecting download data, balance data for 2016
+5. Capacity/Emissions factors: https://www.epa.gov/energy/emissions-generation-resource-integrated-database-egrid (historical data, 2016)
+6. Transmission Data and hourly wind and solar profiles are from: https://www.epa.gov/airmarkets/power-sector-modeling-platform-v515 NEEDS v5.16/IPM v5.16 
