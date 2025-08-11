@@ -17,13 +17,15 @@ Warning: the input csv files are not included here. They are stored in our curre
     - Your run will take anywhere from 1-2 days, after which you can look at the output
     - Edit the input files and output file names for runopt.jl (based on the output from 1) 
 
-6. Run combined.ipynb to merge and format the outputs
+6. Run combine.ipynb to merge and format the outputs
 
 7. Validate your output against eGrid generation and emissions with postproc_opt.ipynb, which takes your combined outputs
 
 8. If you want to compare your data to NEI 2016 data, use NEI_validation.ipynb for a monthly validation (data from ftp://newftp.epa.gov/DMDnLoad/emissions/daily/quarterly/2016/)
 
 9. To get the data in a format readable by GEOS-Chem, with access to a slurm run sbatch opt_output_to_inventory.py. You can then run remove_nans.ipynb in order to remove any nans that appear in the .nc files to make sure they work with GEOS-Chem.
+
+
 
 Additional notes:
 1. mask_us_neigrid.pkl masks the US grid, and is used in the opt_output_to_inventory
