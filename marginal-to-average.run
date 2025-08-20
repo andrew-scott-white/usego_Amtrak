@@ -1,9 +1,0 @@
-#!/bin/bash
-#SBATCH --time=96:00:00
-#SBATCH --cpus-per-task=24
-#SBATCH -p edr
-#SBATCH -J marginal-to-average.py
-
-source activate emis_map
-
-python3 -u marginal-to-average.py

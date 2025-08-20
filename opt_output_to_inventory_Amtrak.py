@@ -22,7 +22,7 @@ print('data loaded')
 phi_region = []
 
 if run_name == 'amtk_current':
-    base_load = pd.read_csv('~/us_ego/inputs/inputs_load.csv') # MWh
+    base_load = pd.read_csv('~/us_ego/inputs/inputs_load_base.csv') # MWh
     amtk_load = pd.read_csv(f'~/us_ego/inputs/inputs_load_{run_name}.csv') # MWh
 
     del_load = amtk_load['demandLoad'] - base_load['demandLoad'] # load attributable to Amtrak
